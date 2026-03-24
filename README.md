@@ -32,7 +32,41 @@ Terraform-Docker/
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/) (for Kubernetes deployments)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/) (for Kubernetes management)
 - [Helm](https://helm.sh/docs/intro/install/) >= 3.0.0 (for Helm deployments)
-
+ graph TB
+    A[Terraform-Docker Project] --> B[Docker Layer]
+    A --> C[Docker Build Layer] 
+    A --> D[Kubernetes Layer]
+    A --> E[Helm Layer]
+    
+    B --> B1[main.tf<br/>Basic nginx container]
+    B --> B2[variables.tf<br/>Container config]
+    B --> B3[output.tf<br/>Container outputs]
+    
+    C --> C1[main.tf<br/>Custom image build]
+    C --> C2[app/<br/>Dockerfile]
+    
+    D --> D1[main.tf<br/>K8s deployments<br/>services, configmaps]
+    
+    E --> E1[main.tf<br/>Helm release<br/>nginx chart]
+    E --> E2[values.tf<br/>Chart customization]
+    
+    B1 --> F[Docker Engine]
+    C1 --> F
+    D1 --> G[Minikube Cluster]
+    E1 --> G
+    
+    F --> H[Container Runtime<br/>nginx:5050]
+    G --> I[Kubernetes Services<br/>nginx:30080/31481]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#e3f2fd
+    style G fill:#f3e5f5
+    style H fill:#c8e6c9
+    style I fill:#ffcdd2
 ### Deployment Steps
 
 #### 1. Basic Docker Container (Root Level)
